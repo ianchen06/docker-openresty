@@ -71,9 +71,6 @@ RUN set -xe && \
         luarocks install http && \
         luarocks install lapis ${LAPIS_VERSION} && \
         luarocks install moonscript && \
-        # Forward request and error logs to docker log collector
-        ln -sf /dev/stdout /var/log/nginx/access.log && \
-        ln -sf /dev/stderr /var/log/nginx/error.log && \
         # Remove build deps
         apt-get remove --purge -y ${BUILD_DEPS} && apt-get autoremove --purge -y && rm -r /var/lib/apt/lists/*
 
