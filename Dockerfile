@@ -1,20 +1,52 @@
 FROM debian:bullseye-slim
 
 # Ref https://github.com/openresty/docker-openresty/blob/master/alpine/Dockerfile
+#ARG OPENRESTY_CONFIG_OPTIONS="\
+#    --with-http_auth_request_module \
+#    --with-http_gunzip_module \
+#    --with-http_realip_module \
+#    --with-http_ssl_module \
+#    --with-http_stub_status_module \
+#    --with-http_v2_module \
+#    --with-ipv6 \
+#    --with-pcre-jit \
+#    --with-sha1-asm \
+#    --with-stream \
+#    --with-stream_ssl_module \
+#    --with-threads \
+#    "
 ARG OPENRESTY_CONFIG_OPTIONS="\
-    --with-http_auth_request_module \
-    --with-http_gunzip_module \
-    --with-http_realip_module \
-    --with-http_ssl_module \
-    --with-http_stub_status_module \
-    --with-http_v2_module \
-    --with-ipv6 \
-    --with-pcre-jit \
-    --with-sha1-asm \
-    --with-stream \
-    --with-stream_ssl_module \
-    --with-threads \
+	--with-http_ssl_module \
+	--with-http_realip_module \
+	--with-http_addition_module \
+	--with-http_sub_module \
+	--with-http_dav_module \
+	--with-http_flv_module \
+	--with-http_mp4_module \
+	--with-http_gunzip_module \
+	--with-http_gzip_static_module \
+	--with-http_random_index_module \
+	--with-http_secure_link_module \
+	--with-http_stub_status_module \
+	--with-http_auth_request_module \
+	--with-http_xslt_module=dynamic \
+	--with-http_image_filter_module=dynamic \
+	--with-http_geoip_module=dynamic \
+	--with-http_perl_module=dynamic \
+	--with-threads \
+	--with-stream \
+	--with-stream_ssl_module \
+	--with-stream_ssl_preread_module \
+	--with-stream_realip_module \
+	--with-stream_geoip_module=dynamic \
+	--with-http_slice_module \
+	--with-mail \
+	--with-mail_ssl_module \
+	--with-compat \
+	--with-file-aio \
+	--with-http_v2_module \
     "
+
 
 # Set environment
 ENV OPENRESTY_VERSION=1.21.4.1 \
@@ -43,6 +75,10 @@ RUN set -xe && \
             libpcre3-dev \
             libssl-dev \
             zlib1g-dev \
+            libxslt1-dev \
+            libgd-dev \
+            libgeoip-dev \
+            libperl-dev \
         && \
         # Install OpenResty
         wget https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz && \
