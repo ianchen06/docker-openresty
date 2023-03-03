@@ -106,8 +106,12 @@ RUN set -xe && \
         luarocks install cqueues && \
         luarocks install http && \
         luarocks install lapis ${LAPIS_VERSION} && \
-        luarocks install moonscript && \
+        luarocks install moonscript \
+        && mkdir -p /var/run/openresty \
+        && ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log \
+        && ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log \
         # Remove build deps
+        && \
         apt-get remove --purge -y ${BUILD_DEPS} && apt-get autoremove --purge -y && rm -r /var/lib/apt/lists/*
 
 EXPOSE 80
