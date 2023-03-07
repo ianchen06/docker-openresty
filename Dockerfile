@@ -76,7 +76,7 @@ RUN set -xe && \
         && cd /usr/local/src/openssl \
         && ./config --prefix=/usr/local/openssl \
         && make && make install \
-	&& rm -rf /usr/local/src/openssl && rm -rf /openssl-3.0.8.tar.gz && rm -rf /openssl-3.0.8
+        && cd / \
 	&& \
         # Install OpenResty
         wget https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz && \
@@ -89,7 +89,7 @@ RUN set -xe && \
             ${OPENRESTY_CONFIG_OPTIONS} \
         && \
         make -j $(getconf _NPROCESSORS_ONLN) && make install && \
-        cd / && rm -rf openresty-${OPENRESTY_VERSION} && \
+        cd / && rm -rf /usr/local/src/openssl/ && rm -rf /openssl-3.0.8 && rm -rf /openssl-3.0.8.tar.gz && rm -rf openresty-${OPENRESTY_VERSION} && \
         # Create link
         [ -e /usr/local/bin/luajit ] || ln -sf /usr/local/openresty/luajit/bin/luajit /usr/local/bin/luajit && \
         # Install LuaRocks
