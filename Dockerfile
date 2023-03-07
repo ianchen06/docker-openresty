@@ -103,8 +103,8 @@ RUN set -xe && \
         make -j $(getconf _NPROCESSORS_ONLN) build && make install && \
         cd / && rm -rf luarocks-${LUAROCKS_VERSION} && \
         # Install Lapis
-        luarocks install cqueues && \
-        luarocks install http && \
+        luarocks install cqueues CRYPTO_DIR=/usr/local/openssl OPENSSL_DIR=/usr/local/openssl && \
+        luarocks install http CRYPTO_DIR=/usr/local/openssl OPENSSL_DIR=/usr/local/openssl && \
         luarocks install lapis ${LAPIS_VERSION} && \
         luarocks install moonscript \
         && mkdir -p /var/run/openresty \
