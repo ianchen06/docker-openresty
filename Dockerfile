@@ -76,6 +76,7 @@ RUN set -xe && \
         && cd /usr/local/src/openssl \
         && ./config --prefix=/usr/local/openssl \
         && make && make install \
+	&& rm -rf /usr/local/src/openssl && rm -rf /openssl-3.0.8.tar.gz && rm -rf /openssl-3.0.8
 	&& \
         # Install OpenResty
         wget https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz && \
