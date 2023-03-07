@@ -70,14 +70,13 @@ RUN set -xe && \
         && \
 	# Install OpenSSL
 	# Source from https://github.com/openssl/openssl/releases/download/openssl-3.0.8/openssl-3.0.8.tar.gz
-        pushd ${BUILDDIR} \
-        && curl -sL -O https://github.com/openssl/openssl/releases/download/openssl-3.0.8/openssl-3.0.8.tar.gz \
+        curl -sL -O https://github.com/openssl/openssl/releases/download/openssl-3.0.8/openssl-3.0.8.tar.gz \
         && tar zxvf openssl-3.0.8.tar.gz \
         && cp -r openssl-3.0.8 /usr/local/src/openssl \
         && cd /usr/local/src/openssl \
         && ./config --prefix=/usr/local/openssl \
         && make && make install \
-	&& popd && \
+	&& \
         # Install OpenResty
         wget https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz && \
         tar xf openresty-${OPENRESTY_VERSION}.tar.gz && rm -f openresty-${OPENRESTY_VERSION}.tar.gz && \
