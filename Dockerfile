@@ -61,6 +61,7 @@ RUN set -xe && \
             ${BUILD_DEPS} \
             ca-certificates \
             libpcre3-dev \
+            # Use ssl built from source
             #libssl-dev \
             zlib1g-dev \
             libxslt1-dev \
@@ -113,6 +114,8 @@ RUN set -xe && \
         && ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log \
         # Remove build deps
         && \
+        rm -rf /usr/share/doc/ && \
+        rm -rf /usr/share/man/ && \
         apt-get remove --purge -y ${BUILD_DEPS} && apt-get autoremove --purge -y && rm -r /var/lib/apt/lists/*
 
 EXPOSE 80
