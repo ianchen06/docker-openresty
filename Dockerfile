@@ -31,8 +31,9 @@ ARG OPENRESTY_CONFIG_OPTIONS="\
 	--with-compat \
 	--with-file-aio \
 	--with-http_v2_module \
-    --with-pcre-jit \
-    --add-dynamic-module=./ngx_brotli \
+        --with-pcre-jit \
+        --with-openssl=/usr/local/src/openssl \
+        --add-dynamic-module=./ngx_brotli \
     "
 
 # Set environment
@@ -60,13 +61,23 @@ RUN set -xe && \
             ${BUILD_DEPS} \
             ca-certificates \
             libpcre3-dev \
-            libssl-dev \
+            #libssl-dev \
             zlib1g-dev \
             libxslt1-dev \
             libgd-dev \
             libgeoip-dev \
             libperl-dev \
         && \
+	# Install OpenSSL
+	# Source from https://github.com/openssl/openssl/releases/download/openssl-3.0.8/openssl-3.0.8.tar.gz
+        pushd ${BUILDDIR} \
+        && curl -sL -O https://github.com/openssl/openssl/releases/download/openssl-3.0.8/openssl-3.0.8.tar.gz \
+        && tar zxvf openssl-3.0.8.tar.gz \
+        && cp -r openssl-3.0.8 /usr/local/src/openssl \
+        && cd /usr/local/src/openssl \
+        && ./config --prefix=/usr/local/openssl \
+        && make && make install \
+	&& popd && \
         # Install OpenResty
         wget https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz && \
         tar xf openresty-${OPENRESTY_VERSION}.tar.gz && rm -f openresty-${OPENRESTY_VERSION}.tar.gz && \
